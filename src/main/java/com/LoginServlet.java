@@ -1,10 +1,16 @@
 package com;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import static com.mongodb.client.model.Filters.*;
 
 public class LoginServlet extends HttpServlet {
 
@@ -15,32 +21,33 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("txtUserNm");
         String password = request.getParameter("txtPassword");
 
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/yourdbname", "root", "yourpassword");
+            DBConnection dbConn = new DBConnection();
+            MongoDatabase database = dbConn.getConnection();
 
-            PreparedStatement stmt = con.prepareStatement(
-                    "SELECT UserId, Username FROM users WHERE BINARY Username=? AND BINARY PasswordHash=?");
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
+            MongoCollection<Document> usersCollection = database.getCollection("Users");
 
-            if (rs.next()) {
+            // BINARY comparison: exact match (case-sensitive)
+            Bson filter = and(eq("username", username), eq("passwordHash", password));
+            Document userDoc = usersCollection.find(filter).first();
+
+            if (userDoc != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("UserId", rs.getString("UserId"));
-                session.setAttribute("Username", rs.getString("Username"));
-                PrintWriter out = response.getWriter();
-                out.println(rs.getString("UserId"));
-                out.println(rs.getString("Username"));
+                session.setAttribute("UserId", userDoc.getObjectId("_id").toString());
+                session.setAttribute("Username", userDoc.getString("username"));
+
+                out.println("UserID: " + userDoc.getObjectId("_id").toString() + "<br>");
+                out.println("Username: " + userDoc.getString("username"));
             } else {
                 response.sendRedirect("Login.jsp?error=1");
             }
 
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().println("Error: " + e.getMessage());
+            out.println("Error: " + e.getMessage());
         }
     }
 }

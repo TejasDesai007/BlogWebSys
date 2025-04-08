@@ -40,7 +40,7 @@
                 <h5 class="card-title"><i class="fas fa-blog"></i> BlogSphere</h5>
                 <p>Welcome to BlogSphere! Enter your credentials:</p>
 
-                <form id="frmLoginCrdt" name="frmLoginCrdt" method="POST" action="/login">
+                <form id="frmLoginCrdt" name="frmLoginCrdt" method="POST" action="login">
                     <div class="mb-3">
                         <label for="txtUserNm" class="form-label">User Name:</label>
                         <input type="text" id="txtUserNm" class="form-control form-control-sm bg-white" name="txtUserNm" autocomplete="off" required />

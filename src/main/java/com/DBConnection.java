@@ -1,36 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
-/**
- *
- * @author DELL
- */
 public class DBConnection {
-    Connection con = null;
 
-    public Connection getConnection() {
+    private MongoClient mongoClient;
+    private MongoDatabase database;
+
+    public MongoDatabase getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("1");
-            String url = "jdbc:mysql://localhost:3306/blogwebsite";
-            System.out.println("1");
-            String username = "root";
-            System.out.println("1");
-            String password = "root";
-            System.out.println("1");
-            con = DriverManager.getConnection(url, username, password);
-            System.out.println("1");
-            System.out.println("Connection String : >>>>>>" + con);
+            // Replace <password> with your actual MongoDB Atlas password
+            String uri = "mongodb+srv://tejasdesai056:Tejas007@cluster0.p19fotu.mongodb.net/Blog?retryWrites=true&w=majority&appName=Cluster0";
+
+
+            mongoClient = MongoClients.create(uri);
+            database = mongoClient.getDatabase("Blog");
+
+            System.out.println("✅ MongoDB Atlas Connected to Blog database.");
         } catch (Exception ex) {
-            System.out.println("Exception While Connection : " + ex.getMessage());
+            System.out.println("Exception While Connecting to MongoDB: " + ex.getMessage());
         }
-        return con;
+        return database;
     }
 }
