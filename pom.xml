@@ -30,6 +30,12 @@
       <artifactId>mongodb-driver-sync</artifactId>
       <version>4.11.0</version> <!-- latest as of Apr 2025 -->
     </dependency>
+    <dependency>
+      <groupId>org.mindrot</groupId>
+      <artifactId>jbcrypt</artifactId>
+      <version>0.4</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>BlogWeb</finalName>

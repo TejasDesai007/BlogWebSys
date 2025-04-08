@@ -55,7 +55,7 @@
                 </form>
 
                 <div class="mt-3">
-                    <small>Don't have an account? <a href="Register.jsp">Register Here</a></small>
+                    <small>Don't have an account? <a href="Register">Register Here</a></small>
                 </div>
             </div>
         </div>

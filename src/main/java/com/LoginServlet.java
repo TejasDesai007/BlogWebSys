@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import org.mindrot.jbcrypt.BCrypt;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
                 out.println("UserID: " + userDoc.getObjectId("_id").toString() + "<br>");
                 out.println("Username: " + userDoc.getString("username"));
             } else {
-                response.sendRedirect("Login.jsp?error=1");
+                response.sendRedirect("Login.jsp");
             }
 
         } catch (Exception e) {
