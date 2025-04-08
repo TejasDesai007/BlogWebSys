@@ -18,6 +18,17 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
 
+  <!-- Map AddPost.jsp via servlet-mapping -->
+  <servlet>
+    <servlet-name>AddPostPage</servlet-name>
+    <jsp-file>/Posts/AddPost.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AddPostPage</servlet-name>
+    <url-pattern>/AddPost</url-pattern>
+  </servlet-mapping>
+
   <!-- Welcome file -->
   <welcome-file-list>
     <welcome-file>Login.jsp</welcome-file>
